@@ -1,47 +1,9 @@
-# DartPad Workshop Starter Pack
-A starter project for DartPad workshops. Follow the quickstart below to create
-your own step-by-step workshop, similar to these
-[workshops](https://github.com/flutter/codelabs/tree/master/dartpad_codelabs)
-maintained by the Flutter team:
+# Responsive UIs in Flutter / Creating Fluid User Interfaces
 
-- [Getting Started with Slivers](https://dartpad.dev/workshops.html?webserver=https://dartpad-workshops-io2021.web.app/getting_started_with_slivers)
-- [Inherited Widget](https://dartpad.dev/workshops.html?webserver=https://dartpad-workshops-io2021.web.app/inherited_widget)
-- [Null Safety](https://dartpad.dev/workshops.html?webserver=https://dartpad-workshops-io2021.web.app/null_safety_workshop)
+Flutter is a portable language: it can render on Mobile, Desktop, Web - even embedded. But portability goes beyond its cross-platform capabilities. You should strive to make your apps adjust to the multiple screens in which your users will consume your app. In this workshop you'll learn how to take advantage of the responsive capabilities available in Flutter and make your Flutter apps adapt to the screens in which they render, and create fluid, responsive experience that will delight your users, regardless of the platform, screen size, orientation, etc.
 
-For more information on authoring a DartPad workshop, see the [Workshop Authoring
-Guide](https://github.com/dart-lang/dart-pad/wiki/Workshop-Authoring-Guide) on
-the DartPad wiki.
+## What is Responsive Design?
 
+Responsive Design is the approach that suggests that design and development should respond to the user’s behavior and environment based on screen size, platform and orientation, in the hopes of achieving a fluid user interface that satisfies the needs of users and delivers a seamless experience.
 
-# Quickstart (Firebase Hosting)
-
-1. Fork this repository
-
-2. Install the [Firebase CLI](https://firebase.google.com/docs/cli)
-
-3. Set the default project ID in `.firebaserc`:
-
-```
-{
-  "projects": {
-    "default": "<FIREBASE_PROJECT_ID>"
-  }
-}
-```
-
-4. Edit the files in `public/` to create your own step-by-step workshop. The
-   `meta.yaml` to configures the metadata such as the project type (Dart or
-   Flutter), number of steps, and title.
-
-4. Deploy to Firebase:
-
-```bash
-firebase deploy
-```
-
-5. Load in DartPad using the following URL, replacing `<FIREBASE_PROJECT_ID>`
-   with your project ID:
-
-```
-https://dartpad.dev/workshops.html?webserver=https://<FIREBASE_PROJECT_ID>.web.app
-```
+In this Dartpad Workshop 
