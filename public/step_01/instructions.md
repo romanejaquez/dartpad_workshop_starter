@@ -1,10 +1,12 @@
-# Responsive UIs in Flutter / Creating Fluid User Interfaces
+# Responsive UIs in Flutter
+
+## Creating Fluid User Interfaces
 
 ## What is Responsive Design?
 
-Responsive Design is the approach that suggests that design and development should respond to the user’s behavior and environment based on screen size, platform and orientation, in the hopes of achieving a fluid user interface that satisfies the needs of users and delivers a seamless experience.
+Responsive Design is the approach that suggests that design and development should adapt or "respond" to the user’s screen size, device orientation, and platform, in the hopes of achieving a fluid user interface that satisfies the needs of users and delivers a seamless experience.
 
-When a Flutter app is ***responsive***, the layout and/or content responds accordingly based on the size of screen they are presented on - it automatically changes to fit the device you’re reading it on based on a set of rules given to the rendering platform.
+When a Flutter app is ***responsive***, the widgets adjust based on the size of screen they are presented on - they automatically change to fit the device you’re reading it on based on a set of rules given to the rendering platform.
 
 Flutter provides a set of widgets and constructs to achieve responsiveness in our apps out of the box, starting from the ```MediaQuery``` widget.
 
@@ -21,7 +23,7 @@ Querying the current media using ```MediaQuery.of``` will cause your widget to r
 In the code on the right, locate the ***TODO*** in the ```TestMediaQueryWidget``` custom widget we created, and insert the following:
 
 ```dart
-// Put this code in the build() method
+// Step #1: Put this code in the build() method
 // of the TestMediaQueryWidget
 
 MediaQueryData data = MediaQuery.of(context);
@@ -29,6 +31,41 @@ MediaQueryData data = MediaQuery.of(context);
 ```
 
 This extracts the [```MediaQueryData```](https://api.flutter.dev/flutter/widgets/MediaQueryData-class.html) which contains information about the width and height of the current window, as well as other useful information such as orientation.
+
+Now, feed the ```MediaQueryData``` object into each one our indicator widgets **HorizontalSizeIndicator** and **VerticalSizeIndicator** by populating their ```mediaQueryData``` property:
+
+```dart
+// Step #2: populate the mediaQueryData property for our indicator widgets,
+
+// first, to our HorizontalSizeIndicator widget:
+HorizontalSizeIndicator(mediaQueryData: data),
+
+// then to our VerticalSizeIndicator widget:
+VerticalSizeIndicator(mediaQueryData: data)
+
+```
+
+Now that we're passing into the widgets that need the **MediaQueryData**, now let's pull the size information from it.
+
+Go to the **HorizontalSizeIndicator** widget, and inside its **build** method, pull both the width and height out of the provided **MediaQueryData** stored in its **mediaQueryData** property, and save them on the local variables **height** and **width** respectively:
+
+```dart
+
+// Step #3: extract both width and height 
+var height = mediaQueryData!.size.height;
+var width = mediaQueryData!.size.width;
+
+```
+
+
+Do the same on the **VerticalSizeIndicator** inside its **build** method, but this one only requires the height:
+
+```dart
+
+// Step #4: extract the height value only 
+var height = mediaQueryData!.size.height;
+
+```
 
 Go ahead now and hit ```Run``` on DartPad to execute the code, and then resize the **UI Output** window to the right from both sides by dragging from the divider controls, so you can see that as soon as you resize the containing window, your widget will be scheduled to be rebuilt, thus causing the ```MediaQuery``` to be queried, retrieving the width and height values of the containing window as it changes dimensions and keeping your widget up-to-date.
 

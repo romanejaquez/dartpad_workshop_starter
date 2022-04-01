@@ -20,12 +20,12 @@ class TestMediaQueryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    // TODO: Extract the MediaQueryData from MediaQuery.of
+    // TODO: Step #1: Extract the MediaQueryData from MediaQuery.of
 
     return Stack(
       children: [
-        HorizontalSizeIndicator(mediaQueryData: data),
-        VerticalSizeIndicator(mediaQueryData: data)
+        HorizontalSizeIndicator(/* TODO: Step #2: populate the mediaQueryData param */),
+        VerticalSizeIndicator(/* TODO: Step #2: populate the mediaQueryData param */)
       ]
     );
   }
@@ -35,15 +35,19 @@ class HorizontalSizeIndicator extends StatelessWidget {
   
   final MediaQueryData? mediaQueryData;
 
-  const HorizontalSizeIndicator({ this.mediaQueryData });
+  const HorizontalSizeIndicator({ Key? key, this.mediaQueryData }): super(key: key);
 
   @override
   Widget build(BuildContext context) {
     
+    // TODO: Step #3 - get the height and width out of the mediaQueryData.size
+    var height = 0;
+    var width = 0;
+
     return Stack(
       children: [
         Positioned(
-          top: mediaQueryData!.size.height / 2,
+          top: height / 2,
           left: -6,
           child: const Icon(
             Icons.west,
@@ -52,7 +56,7 @@ class HorizontalSizeIndicator extends StatelessWidget {
           )
         ),
         Positioned(
-          top: mediaQueryData!.size.height / 2,
+          top: height / 2,
           right: -6,
           child: const Icon(
             Icons.east,
@@ -61,7 +65,7 @@ class HorizontalSizeIndicator extends StatelessWidget {
           )
         ),
         Positioned(
-          top: (mediaQueryData!.size.height / 2) + 36,
+          top: (height / 2) + 36,
           left: 0,
           right: 0,
           child: Container(
@@ -74,7 +78,7 @@ class HorizontalSizeIndicator extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: Container(
             margin: const EdgeInsets.only(left: 50, bottom: 30),
-            child: Text('${mediaQueryData!.size.width}', 
+            child: Text('$width',
                         style: const TextStyle(fontSize: 60, color: Colors.green))
           )
         )
@@ -87,10 +91,13 @@ class VerticalSizeIndicator extends StatelessWidget {
   
   final MediaQueryData? mediaQueryData;
 
-  const VerticalSizeIndicator({ this.mediaQueryData });
+  const VerticalSizeIndicator({ Key? key, this.mediaQueryData }): super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+    // TODO: Step #4 - get the height only out of the mediaQueryData.size
+    var height = 0;
     
     return Stack(
       children: [
@@ -126,7 +133,7 @@ class VerticalSizeIndicator extends StatelessWidget {
             angle: -1.55,
             child: Container(
               margin: const EdgeInsets.only(bottom: 30, right: 100),
-              child: Text('${mediaQueryData!.size.height}', 
+              child: Text('$height', 
                           style: const TextStyle(fontSize: 60, color: Colors.red))
             )
           )

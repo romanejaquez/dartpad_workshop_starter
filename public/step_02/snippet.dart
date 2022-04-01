@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(SampleApp());
+void main() => runApp(const SampleApp());
 
 class SampleApp extends StatelessWidget {
+  const SampleApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: TestDeviceBreakpointsWidget()
@@ -50,22 +52,26 @@ class Utils {
 
 class TestDeviceBreakpointsWidget extends StatelessWidget {
 
+  const TestDeviceBreakpointsWidget({ Key? key }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     
+    MediaQueryData data = MediaQuery.of(context);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Stack(
           children: [
-            DeviceScreenIndicator(),
+            const DeviceScreenIndicator(),
             Opacity(
               opacity: 0.25,
-              child: HorizontalSizeIndicator()
+              child: HorizontalSizeIndicator(mediaQueryData: data)
             ),
             Opacity(
               opacity: 0.25,
-              child: VerticalSizeIndicator()
+              child: VerticalSizeIndicator(mediaQueryData: data)
             )
           ]
         )
@@ -76,12 +82,18 @@ class TestDeviceBreakpointsWidget extends StatelessWidget {
 
 class DeviceScreenIndicator extends StatelessWidget {
   
+  const DeviceScreenIndicator({ Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     
-    // TODO: add Step #4 here (consuming the Utils.getDeviceType)
+    // TODO: Step #4: consuming the Utils.getDeviceType passing the context
     
-    DeviceDescription? deviceDesc = Utils.deviceTypes[deviceBreakpoint];
+    // TODO: Step #5: usign the retrieved enum above, get the 
+    // DeviceDescription from the Utils.deviceTypes mapping
+    // and use it to populate the "icon" and "label" properties below:
+    IconData? icon;
+    String? label;
     
     return Align(
       alignment: Alignment.topLeft,
@@ -90,11 +102,9 @@ class DeviceScreenIndicator extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(deviceDesc!.icon, color: Colors.blueAccent, size: 70),
-            const SizedBox(height: 20),
-            Text(deviceDesc.label!, 
-              style: const TextStyle(color: Colors.blueAccent, fontSize: 20)
-            )
+            // TODO: Step #6
+            // add an Icon widget and feed the "icon" property to it
+            // then add a Text widget and feed the "label" property to it
           ]
         )
       )
@@ -104,15 +114,20 @@ class DeviceScreenIndicator extends StatelessWidget {
 
 class HorizontalSizeIndicator extends StatelessWidget {
   
+  final MediaQueryData? mediaQueryData;
+
+  const HorizontalSizeIndicator({ Key? key, this.mediaQueryData }): super(key: key);
+
   @override
   Widget build(BuildContext context) {
     
-    MediaQueryData data = MediaQuery.of(context);
-    
+    var height = mediaQueryData!.size.height;
+    var width = mediaQueryData!.size.width;
+
     return Stack(
       children: [
         Positioned(
-          top: data.size.height / 2,
+          top: height / 2,
           left: -6,
           child: const Icon(
             Icons.west,
@@ -121,7 +136,7 @@ class HorizontalSizeIndicator extends StatelessWidget {
           )
         ),
         Positioned(
-          top: data.size.height / 2,
+          top: height / 2,
           right: -6,
           child: const Icon(
             Icons.east,
@@ -130,7 +145,7 @@ class HorizontalSizeIndicator extends StatelessWidget {
           )
         ),
         Positioned(
-          top: (data.size.height / 2) + 36,
+          top: (height / 2) + 36,
           left: 0,
           right: 0,
           child: Container(
@@ -143,7 +158,7 @@ class HorizontalSizeIndicator extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: Container(
             margin: const EdgeInsets.only(left: 50, bottom: 30),
-            child: Text('${data.size.width}', 
+            child: Text('$width',
                         style: const TextStyle(fontSize: 60, color: Colors.green))
           )
         )
@@ -154,10 +169,14 @@ class HorizontalSizeIndicator extends StatelessWidget {
 
 class VerticalSizeIndicator extends StatelessWidget {
   
+  final MediaQueryData? mediaQueryData;
+
+  const VerticalSizeIndicator({ Key? key, this.mediaQueryData }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    
-    MediaQueryData data = MediaQuery.of(context);
+
+    var height = mediaQueryData!.size.height;
     
     return Stack(
       children: [
@@ -193,7 +212,7 @@ class VerticalSizeIndicator extends StatelessWidget {
             angle: -1.55,
             child: Container(
               margin: const EdgeInsets.only(bottom: 30, right: 100),
-              child: Text('${data.size.height}', 
+              child: Text('$height', 
                           style: const TextStyle(fontSize: 60, color: Colors.red))
             )
           )

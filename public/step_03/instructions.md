@@ -1,6 +1,6 @@
 # Responsive UIs in Flutter / Using the LayoutBuilder Widget
 
-Sometimes you are not concerned with the dimensions of the app's screen (it's way too above for your needs), but rather how much space your immediate parent widget has devoted for you to render. For this case, there's a special widget called **LayoutBuilder**.
+Sometimes you are not concerned with the dimensions of the app's screen, but rather how much space your immediate parent widget has devoted for you to render. For this case, there's a special widget called **LayoutBuilder**.
 
 The [**LayoutBuilder**](https://api.flutter.dev/flutter/widgets/LayoutBuilder-class.html) widget is a simpler **MediaQuery** widget for basic size requests, but the best thing of it is that it tells the underlying widget tree how much space it has available.
 

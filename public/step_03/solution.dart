@@ -1,29 +1,36 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(SampleApp());
+void main() => runApp(
+  const MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: SampleApp()
+  )
+);
 
 class SampleApp extends StatelessWidget {
+
+  const SampleApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Stack(
-          children: const [
-            LayoutBuilderIndicator(color: Colors.purple),
-            DeviceScreenIndicator(),
-            Opacity(
-              opacity: 0.25,
-              child: HorizontalSizeIndicator()
-            ),
-            Opacity(
-              opacity: 0.25,
-              child: VerticalSizeIndicator()
-            )
-          ]
-        )
-      ),
+    MediaQueryData data = MediaQuery.of(context);
+
+    return Scaffold(
+      body: Stack(
+        children: [
+          const LayoutBuilderIndicator(color: Colors.purple),
+          const DeviceScreenIndicator(),
+          Opacity(
+            opacity: 0.25,
+            child: HorizontalSizeIndicator(mediaQueryData: data)
+          ),
+          Opacity(
+            opacity: 0.25,
+            child: VerticalSizeIndicator(mediaQueryData: data)
+          )
+        ]
+      )
     );
   }
 }
@@ -74,24 +81,30 @@ class LayoutBuilderIndicator extends StatelessWidget {
 }
 
 class DeviceScreenIndicator extends StatelessWidget {
-
-  const DeviceScreenIndicator({Key? key}) : super(key: key);
   
+  const DeviceScreenIndicator({ Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     
-    DeviceDescription? deviceDesc = Utils.deviceTypes[Utils.getDeviceType(context)];
+    DeviceBreakpoints deviceBreakpoint = Utils.getDeviceType(context);
+    DeviceDescription? deviceDesc = Utils.deviceTypes[deviceBreakpoint];
+
+    IconData? icon = deviceDesc!.icon;
+    String? label = deviceDesc.label;
     
     return Align(
       alignment: Alignment.topLeft,
       child: Container(
-        margin: const EdgeInsets.all(30),
+        margin: const EdgeInsets.all(25),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(deviceDesc!.icon, color: Colors.blueAccent, size: 40),
+            Icon(icon, color: Colors.blueAccent, size: 30),
             const SizedBox(height: 10),
-            Text(deviceDesc.label!, style: const TextStyle(color: Colors.blueAccent, fontSize: 15))
+            Text(label!, 
+              style: const TextStyle(color: Colors.blueAccent, fontSize: 15)
+            )
           ]
         )
       )
@@ -146,58 +159,6 @@ class HorizontalSizeConstraintsIndicator extends StatelessWidget {
             margin: const EdgeInsets.only(left: 50, bottom: 30),
             child: Text('${maxWidth!.toInt()}', 
                         style: TextStyle(fontSize: 30, color: color))
-          )
-        )
-      ]
-    );
-  }
-}
-
-class HorizontalSizeIndicator extends StatelessWidget {
-
-  const HorizontalSizeIndicator({Key? key}) : super(key: key);
-  
-  @override
-  Widget build(BuildContext context) {
-    
-    MediaQueryData data = MediaQuery.of(context);
-    
-    return Stack(
-      children: [
-        Positioned(
-          top: data.size.height - 100,
-          left: -6,
-          child: const Icon(
-            Icons.west,
-            color: Colors.green,
-            size: 80
-          )
-        ),
-        Positioned(
-          top: data.size.height - 100,
-          right: -6,
-          child: const Icon(
-            Icons.east,
-            color: Colors.green,
-            size: 80
-          )
-        ),
-        Positioned(
-          top: (data.size.height - 100) + 36,
-          left: 0,
-          right: 0,
-          child: Container(
-            height: 8,
-            color: Colors.green,
-            margin: const EdgeInsets.only(left: 12, right: 12)
-          )
-        ),
-        Align(
-          alignment: Alignment.bottomLeft,
-          child: Container(
-            margin: const EdgeInsets.only(left: 50, bottom: 80),
-            child: Text('${data.size.width}', 
-                        style: const TextStyle(fontSize: 60, color: Colors.green))
           )
         )
       ]
@@ -260,14 +221,72 @@ class VerticalSizeConstraintsIndicator extends StatelessWidget {
   }
 }
 
-class VerticalSizeIndicator extends StatelessWidget {
 
-  const VerticalSizeIndicator({Key? key}) : super(key: key);
+class HorizontalSizeIndicator extends StatelessWidget {
   
+  final MediaQueryData? mediaQueryData;
+
+  const HorizontalSizeIndicator({ Key? key, this.mediaQueryData }): super(key: key);
+
   @override
   Widget build(BuildContext context) {
     
-    MediaQueryData data = MediaQuery.of(context);
+    var height = mediaQueryData!.size.height;
+    var width = mediaQueryData!.size.width;
+
+    return Stack(
+      children: [
+        Positioned(
+          top: height - 100,
+          left: -6,
+          child: const Icon(
+            Icons.west,
+            color: Colors.green,
+            size: 80
+          )
+        ),
+        Positioned(
+          top: height - 100,
+          right: -6,
+          child: const Icon(
+            Icons.east,
+            color: Colors.green,
+            size: 80
+          )
+        ),
+        Positioned(
+          top: (height - 100) + 36,
+          left: 0,
+          right: 0,
+          child: Container(
+            height: 8,
+            color: Colors.green,
+            margin: const EdgeInsets.only(left: 12, right: 12)
+          )
+        ),
+        Align(
+          alignment: Alignment.bottomLeft,
+          child: Container(
+            margin: const EdgeInsets.only(left: 50, bottom: 80),
+            child: Text('$width',
+                        style: const TextStyle(fontSize: 60, color: Colors.green))
+          )
+        )
+      ]
+    );
+  }
+}
+
+class VerticalSizeIndicator extends StatelessWidget {
+  
+  final MediaQueryData? mediaQueryData;
+
+  const VerticalSizeIndicator({ Key? key, this.mediaQueryData }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+
+    var height = mediaQueryData!.size.height;
     
     return Stack(
       children: [
@@ -303,7 +322,7 @@ class VerticalSizeIndicator extends StatelessWidget {
             angle: -1.55,
             child: Container(
               margin: const EdgeInsets.only(bottom: 30, right: 100),
-              child: Text('${data.size.height}', 
+              child: Text('$height', 
                           style: const TextStyle(fontSize: 60, color: Colors.red))
             )
           )
@@ -312,6 +331,7 @@ class VerticalSizeIndicator extends StatelessWidget {
     );
   }
 }
+
 
 enum DeviceBreakpoints {
   mobile,
