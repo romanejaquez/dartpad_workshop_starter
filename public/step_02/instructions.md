@@ -1,3 +1,9 @@
+<!-- Overall, this is great content. I'd consider breaking it up into 2 or 3 
+steps to make it easier to follow: Define the Sizes & Enum, Convert from Constraints 
+into Enum, Use Enum Values to change layout. I'd also consider letting them 
+change the layout themselves based on the enum, rather than providing all of
+that code for them. To help with this, it might be a good idea to only have 3 
+different sizes: mobile, tablet, desktop. -->
 # Responsive UIs in Flutter / Handling Multiple Screen Sizes
 
 With the increasing amount of devices coming into the market, we're getting to the point in which we're unable to keep up with their resolutions and sizes.
@@ -10,7 +16,7 @@ Enter the **breakpoints**!
 
 ## What's a Breakpoint?
 
-In responsive design, a breakpoint is the "point" at which a website or app's content and design will adjust in a certain way in order to provide the best possible user experience. 
+In responsive design, a breakpoint is the screen size at which a website or app's content and design will adjust in a certain way in order to provide the best possible user experience. 
 
 Essentially, breakpoints are pixel values that a developer/designer can define in code. When a responsive app reaches those pixel values, a transformation occurs so that the website offers an optimal user experience for the screen dimensions in pixels in which it renders.
 
