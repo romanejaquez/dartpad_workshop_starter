@@ -1,4 +1,4 @@
-name: Example workshop
+name: Responsive UIs in Flutter / Creating Fluid User Interfaces 
 
 # Accepts 'flutter' or 'dart'
 type: flutter
@@ -10,4 +10,7 @@ steps:
     has_solution: true
   - name: Step 2
     directory: step_02
-    has_solution: false
+    has_solution: true
+  - name: Step 3
+    directory: step_03
+    has_solution: true

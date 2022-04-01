@@ -15,12 +15,21 @@ class SampleApp extends StatelessWidget {
   }
 }
 
-// TODO: add Step #2 here (the enum)
+enum DeviceBreakpoints {
+  mobile,
+  tablet,
+  laptop,
+  desktop,
+  tv
+}
 
-
+// Utilities class
 class Utils {
   
-  // TODO: add Step #1 here (the breakpoint values)
+  static const int mobileMaxSize = 480;
+  static const int tabletMaxSize = 768;
+  static const int laptopMaxSize = 1024;
+  static const int desktopMaxSize = 1200;
   
   static Map<DeviceBreakpoints, DeviceDescription> deviceTypes = {
     DeviceBreakpoints.mobile: DeviceDescription(
@@ -45,7 +54,32 @@ class Utils {
     )
   };
   
-  // TODO: add Step #3 here (the getDeviceType method)
+  static DeviceBreakpoints getDeviceType(BuildContext context) {
+
+    MediaQueryData data = MediaQuery.of(context);
+    DeviceBreakpoints bk = DeviceBreakpoints.mobile;
+
+    if (data.size.width > Utils.mobileMaxSize 
+      && data.size.width <= Utils.tabletMaxSize) {
+      bk = DeviceBreakpoints.tablet;
+    }
+
+    else if (data.size.width > Utils.tabletMaxSize 
+      && data.size.width <= Utils.laptopMaxSize) {
+      bk = DeviceBreakpoints.laptop;
+    }
+
+    else if (data.size.width > Utils.laptopMaxSize &&
+            data.size.width <= Utils.desktopMaxSize) {
+      bk = DeviceBreakpoints.desktop;
+    }
+    
+    else if (data.size.width > Utils.desktopMaxSize) {
+      bk = DeviceBreakpoints.tv;
+    }
+
+    return bk;
+  }
 }
 
 class TestDeviceBreakpointsWidget extends StatelessWidget {
@@ -79,7 +113,7 @@ class DeviceScreenIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-    // TODO: add Step #4 here (consuming the Utils.getDeviceType)
+    DeviceBreakpoints deviceBreakpoint = Utils.getDeviceType(context);
     
     DeviceDescription? deviceDesc = Utils.deviceTypes[deviceBreakpoint];
     

@@ -1,64 +1,137 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(SampleApp());
 
-class MyApp extends StatelessWidget {
+class SampleApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    
     return MaterialApp(
-      title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+      home: Scaffold(
+        body: TestMediaQueryWidget()
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
+class TestMediaQueryWidget extends StatelessWidget {
+  
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  Widget build(BuildContext context) {
+
+    MediaQueryData data = MediaQuery.of(context);
+
+    return Stack(
+      children: [
+        HorizontalSizeIndicator(mediaQueryData: data),
+        VerticalSizeIndicator(mediaQueryData: data)
+      ]
+    );
+  }
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class HorizontalSizeIndicator extends StatelessWidget {
+  
+  final MediaQueryData? mediaQueryData;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  const HorizontalSizeIndicator({ this.mediaQueryData });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+    
+    return Stack(
+      children: [
+        Positioned(
+          top: mediaQueryData!.size.height / 2,
+          left: -6,
+          child: const Icon(
+            Icons.west,
+            color: Colors.green,
+            size: 80
+          )
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
+        Positioned(
+          top: mediaQueryData!.size.height / 2,
+          right: -6,
+          child: const Icon(
+            Icons.east,
+            color: Colors.green,
+            size: 80
+          )
+        ),
+        Positioned(
+          top: (mediaQueryData!.size.height / 2) + 36,
+          left: 0,
+          right: 0,
+          child: Container(
+            height: 8,
+            color: Colors.green,
+            margin: const EdgeInsets.only(left: 12, right: 12)
+          )
+        ),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Container(
+            margin: const EdgeInsets.only(left: 50, bottom: 30),
+            child: Text('${mediaQueryData!.size.width}', 
+                        style: const TextStyle(fontSize: 60, color: Colors.green))
+          )
+        )
+      ]
+    );
+  }
+}
+
+class VerticalSizeIndicator extends StatelessWidget {
+  
+  final MediaQueryData? mediaQueryData;
+
+  const VerticalSizeIndicator({ this.mediaQueryData });
+
+  @override
+  Widget build(BuildContext context) {
+    
+    return Stack(
+      children: [
+        const Positioned(
+          top: -6,
+          right: 24,
+          child: Icon(
+            Icons.north,
+            color: Colors.red,
+            size: 80
+          ) 
+        ),
+        const Positioned(
+          bottom: -6,
+          right: 24,
+          child: Icon(
+            Icons.south,
+            color: Colors.red,
+            size: 80
+          ) 
+        ),
+        Align(
+          alignment: Alignment.centerRight,
+          child: Container(
+            width: 8,
+            color: Colors.red,
+            margin: const EdgeInsets.only(top: 12, bottom: 12, right: 60)
+          ),
+        ),
+        Align(
+          alignment: Alignment.topRight,
+          child: Transform.rotate(
+            angle: -1.55,
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 30, right: 100),
+              child: Text('${mediaQueryData!.size.height}', 
+                          style: const TextStyle(fontSize: 60, color: Colors.red))
+            )
+          )
+        )
+      ]
     );
   }
 }
