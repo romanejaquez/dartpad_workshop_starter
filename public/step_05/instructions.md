@@ -6,8 +6,6 @@ We'll put in practice the concepts we've mentioned in the previous steps with a 
 
 You can apply certain rule-of-thumb guidelines when it comes to achieving good responsiveness in your apps:
 
-- Showing content when there's room for it
-
 ## Showing content when there's room for it
 Make sure that when you hide content, you provide an alternative on how to bring it back. This is usually reserved for non-critical content that the user can do away with not having apparently visible all the time, for example an expandable navigation, that when there's room on the screen we can show all the time, otherwise we can hide it and show it at the click of a button on a smaller screen.
 
@@ -39,7 +37,7 @@ Now let's go to the ```Utils``` class, and create a ```static``` **Map** called 
 Build it according to these specs:
 - for ```mobile``` and ```tablet```: iconSize **30** and labelSize **15**
 - for ```laptop```: iconSize **25** and labelSize **15**
-- for ```desktop```: iconSize **25** and labelSize **20**
+- for ```desktop``` and ```tv```: iconSize **25** and labelSize **20**
 
 ```dart
 

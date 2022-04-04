@@ -150,7 +150,7 @@ class FlutterAirWelcome extends StatelessWidget {
       appBar: FlutterAirAppBar(),
       body: Row(
         children: [
-          // TODO: add the FlutterAirSideBar widget,
+          // TODO: Step #10: add the FlutterAirSideBar widget
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(50),
