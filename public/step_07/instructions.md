@@ -163,4 +163,6 @@ Expanded(
 )
 ```
 
+It does pretty much the same thing as before: the ```LayoutBuilder``` sets the constraints in which the ```Column``` widget should be rendered, the ```Container``` widget dictates what the minimum height should be based on an optimal preset value, and the ```SingleChildScrollView``` jumps to the rescue so as not to cut off the content but to provide scrolling capabilities to the ```Container``` widget wrapping our structure.
+
 And with that you've solved the issue of content crushing against each other, and instead a scrollbar shows automatically when applicable so as to still display the content while maintaining flexibility and fluidity.
