@@ -144,6 +144,8 @@ class FlutterAirWelcome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
+    FlutterAirFlightInfoStyles? flightInfoStyles = Utils.flightInfoStyles[Utils.getDeviceType(context)];
+    
     return Scaffold(
       backgroundColor: Colors.white,
       drawer: const Drawer(),
@@ -152,9 +154,22 @@ class FlutterAirWelcome extends StatelessWidget {
         children: [
           FlutterAirSideBar(),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(50),
-              child: FlutterAirFlightInfo()
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  controller: ScrollController(),
+                  child: Container(
+                        height: constraints.maxHeight,
+                        constraints: BoxConstraints(
+                          minHeight: constraints.minHeight < flightInfoStyles!.minHeight! ? 
+                        flightInfoStyles.minHeight! : constraints.minHeight),
+                        child: Padding(
+                      padding: const EdgeInsets.all(50),
+                      child: FlutterAirFlightInfo()
+                    ),
+                  )
+                );
+              }
             )
           )
         ]
@@ -181,41 +196,54 @@ class FlutterAirSideBar extends StatelessWidget {
             children: [
               const SizedBox(height: 20),
               Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: List.generate(Utils.sideBarItems.length, (index) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          IconButton(
-                            color: Utils.secondaryThemeColor,
-                            splashColor: Utils.mainThemeColor.withOpacity(0.2),
-                            highlightColor: Utils.mainThemeColor.withOpacity(0.2),
-                            onPressed: () {},
-                            icon: Icon(
-                              Utils.sideBarItems[index].icon, // populate the icon
-                              color: Colors.white,
-                              size: sideBarItemStyles!.iconSize // use the configured style
-                            )
-                          ),
-                          Visibility(
-                            visible: MediaQuery.of(context).size.width > Utils.tabletMaxSize,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10, top: 10, right: 20, bottom: 10),
-                              child: Text(
-                                Utils.sideBarItems[index].label!, 
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: sideBarItemStyles.labelSize
-                                )
-                              ),
-                            )
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return SingleChildScrollView(
+                      controller: ScrollController(),
+                      child: Container(
+                        height: constraints.maxHeight,
+                        constraints: BoxConstraints(
+                          minHeight: constraints.minHeight < sideBarItemStyles!.minHeight! ? 
+                        sideBarItemStyles.minHeight! : constraints.minHeight),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: List.generate(Utils.sideBarItems.length, (index) {
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  IconButton(
+                                    color: Utils.secondaryThemeColor,
+                                    splashColor: Utils.mainThemeColor.withOpacity(0.2),
+                                    highlightColor: Utils.mainThemeColor.withOpacity(0.2),
+                                    onPressed: () {},
+                                    icon: Icon(
+                                      Utils.sideBarItems[index].icon, // populate the icon
+                                      color: Colors.white,
+                                      size: sideBarItemStyles.iconSize // use the configured style
+                                    )
+                                  ),
+                                  Visibility(
+                                    visible: MediaQuery.of(context).size.width > Utils.tabletMaxSize,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 10, top: 10, right: 20, bottom: 10),
+                                      child: Text(
+                                        Utils.sideBarItems[index].label!, 
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: sideBarItemStyles.labelSize
+                                        )
+                                      ),
+                                    )
+                                  )
+                                ]
+                              );
+                            }
                           )
-                        ]
-                      );
-                    }
-                  )
+                        ),
+                      ),
+                    );
+                  }
                 )
               ),
               const Expanded(
@@ -415,16 +443,39 @@ class FlutterAirFlightInfo extends StatelessWidget {
       )
     ];
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+      
+      if (constraints.maxWidth < 600) {
+        return Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: flightInfoWidgets
-        ),
-        ...flightInfoColumn.children
-      ]
-    );
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: flightInfoWidgets
+            ),
+            ...flightInfoColumn.children
+          ]
+        );
+      }
+    
+      return Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Expanded(
+            flex: 2,
+            child: flightInfoColumn
+          ),
+          Expanded(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: flightInfoWidgets
+            )
+          )
+        ]
+      );
+    });
   }
 }
 
@@ -561,7 +612,8 @@ class Utils {
       seatBadgetLabelSize: 25,
       flightLineSize: 3,
       flightLineEndRadiusSize: 10,
-      secondaryIconSize: 30
+      secondaryIconSize: 30,
+      minHeight: 500,
     ),
     DeviceBreakpoints.tablet: FlutterAirFlightInfoStyles(
       labelSize: 20,
@@ -574,7 +626,8 @@ class Utils {
       seatBadgetLabelSize: 30,
       flightLineSize: 4,
       flightLineEndRadiusSize: 15,
-      secondaryIconSize: 30
+      secondaryIconSize: 30,
+      minHeight: 500
     ),
     DeviceBreakpoints.laptop: FlutterAirFlightInfoStyles(
       labelSize: 20,
@@ -587,7 +640,8 @@ class Utils {
       seatBadgetLabelSize: 35,
       flightLineSize: 4,
       flightLineEndRadiusSize: 15,
-      secondaryIconSize: 30
+      secondaryIconSize: 30,
+      minHeight: 500
     ),
     DeviceBreakpoints.desktop: FlutterAirFlightInfoStyles(
       labelSize: 25,
@@ -600,7 +654,8 @@ class Utils {
       seatBadgetLabelSize: 35,
       flightLineSize: 4,
       flightLineEndRadiusSize: 20,
-      secondaryIconSize: 50
+      secondaryIconSize: 50,
+      minHeight: 500
     ),
     DeviceBreakpoints.tv: FlutterAirFlightInfoStyles(
       labelSize: 25,
@@ -613,7 +668,8 @@ class Utils {
       seatBadgetLabelSize: 35,
       flightLineSize: 4,
       flightLineEndRadiusSize: 20,
-      secondaryIconSize: 50
+      secondaryIconSize: 50,
+      minHeight: 500
     ),
   };
 
@@ -677,23 +733,28 @@ class Utils {
   static Map<DeviceBreakpoints, FlutterAirSideBarItemStyles> sideBarItemStyles = {
     DeviceBreakpoints.mobile: FlutterAirSideBarItemStyles(
        iconSize: 30,
-       labelSize: 15
+       labelSize: 15,
+       minHeight: 200
     ),
     DeviceBreakpoints.tablet: FlutterAirSideBarItemStyles(
        iconSize: 30,
-       labelSize: 15
+       labelSize: 15,
+       minHeight: 200
     ),
     DeviceBreakpoints.laptop: FlutterAirSideBarItemStyles(
        iconSize: 25,
-       labelSize: 15
+       labelSize: 15,
+       minHeight: 200
     ),
     DeviceBreakpoints.desktop: FlutterAirSideBarItemStyles(
        iconSize: 25,
-       labelSize: 20
+       labelSize: 20,
+       minHeight: 200
     ),
     DeviceBreakpoints.tv: FlutterAirSideBarItemStyles(
        iconSize: 25,
-       labelSize: 20
+       labelSize: 20,
+       minHeight: 200
     ),
   };
 }
@@ -726,6 +787,7 @@ class FlutterAirFlightInfoStyles {
   double? flightLineSize;
   double? flightLineEndRadiusSize;
   double? secondaryIconSize;
+  double? minHeight;
 
   FlutterAirFlightInfoStyles({
     this.labelSize,
@@ -738,16 +800,18 @@ class FlutterAirFlightInfoStyles {
     this.seatBadgetLabelSize,
     this.flightLineSize,
     this.flightLineEndRadiusSize,
-    this.secondaryIconSize
+    this.secondaryIconSize,
+    this.minHeight
   });
 }
 
 class FlutterAirSideBarItemStyles {
   double? iconSize;
   double? labelSize;
+  double? minHeight;
 
   FlutterAirSideBarItemStyles({
-    this.iconSize, this.labelSize
+    this.iconSize, this.labelSize, this.minHeight
   });
 }
 

@@ -15,6 +15,8 @@ In the above image, you see how the sidebar widget either expands when there's r
 
 Let's work on this.
 
+## Define the styles for your breakpoints
+
 Let's start by creating a class called ```FlutterAirSideBarItemStyles``` that will hold the values for both the icon size and label size at the different breakpoints our app will be supporting. This will allow us, as the application window resizes and the widget rebuilds, to tap into each of the configured styles mapped per breakpoint enum:
 
 ```dart

@@ -152,6 +152,9 @@ class FlutterAirWelcome extends StatelessWidget {
         children: [
           FlutterAirSideBar(),
           Expanded(
+
+            // TODO: start building the main region 
+            // structure from this point forward
             child: Padding(
               padding: const EdgeInsets.all(50),
               child: FlutterAirFlightInfo()
@@ -181,6 +184,9 @@ class FlutterAirSideBar extends StatelessWidget {
             children: [
               const SizedBox(height: 20),
               Expanded(
+
+                // TODO: start adding the side bar structure
+                // from this point forward
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -415,16 +421,39 @@ class FlutterAirFlightInfo extends StatelessWidget {
       )
     ];
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+      
+      if (constraints.maxWidth < 600) {
+        return Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: flightInfoWidgets
-        ),
-        ...flightInfoColumn.children
-      ]
-    );
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: flightInfoWidgets
+            ),
+            ...flightInfoColumn.children
+          ]
+        );
+      }
+    
+      return Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Expanded(
+            flex: 2,
+            child: flightInfoColumn
+          ),
+          Expanded(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: flightInfoWidgets
+            )
+          )
+        ]
+      );
+    });
   }
 }
 

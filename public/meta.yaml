@@ -23,3 +23,12 @@ steps:
   - name: Step 6
     directory: step_06
     has_solution: true
+  - name: Step 7
+    directory: step_07
+    has_solution: true
+  - name: Step 8
+    directory: step_08
+    has_solution: false
+  - name: Step 9
+    directory: step_08
+    has_solution: false

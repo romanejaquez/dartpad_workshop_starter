@@ -12,6 +12,16 @@ Let's proceed!
 
 Locate the ```FlutterAirFlightInfo``` widget, and go to the ```return``` statement on its ```build``` method. We are currently just returning a ```Column``` widget; each of its children is a ```Row``` widget.
 
+Take a look at both ```flightInfoColumn``` which is a ```Column``` widget that contains the ```Row``` widgets representing the rows of information. We'll switch the layout from this - a single column with rows:
+
+![LayoutBuilder](http://localhost:8080/images/step6_1.png)
+
+To a two-column layout, where the top row switches to becoming a column and shifts its contents to the right side of the main column: 
+
+![LayoutBuilder](http://localhost:8080/images/step6_2.png)
+
+Let's execute!
+
 We'll wrap this existing widget structure inside a ```LayoutBuilder``` and return it only if the constraints' ```maxWidth``` is smaller than a specified threshold, which we found our sweet spot to be 600px, so let's do just that:
 
 ```dart

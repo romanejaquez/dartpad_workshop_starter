@@ -154,13 +154,7 @@ class FlutterAirWelcome extends StatelessWidget {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(50),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: FlutterAirFlightInfo(),
-                  )
-                ],
-              )
+              child: FlutterAirFlightInfo()
             )
           )
         ]
