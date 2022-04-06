@@ -1,12 +1,10 @@
-# Responsive UIs in Flutter
-
-## Creating Fluid User Interfaces
+# Responsive UIs in Flutter: Creating Fluid User Interfaces
 
 ## What is Responsive Design?
 
 Responsive Design is the approach that suggests that design and development should adapt or "respond" to the user’s screen size, device orientation, and platform, in the hopes of achieving a fluid user interface that satisfies the needs of users and delivers a seamless experience.
 
-When a Flutter app is ***responsive***, the widgets adjust based on the size of screen they are presented on - they automatically change to fit the device you’re reading it on based on a set of rules given to the rendering platform.
+When a Flutter app is ***responsive***, the widgets adjust based on the size of the screen they are presented on, and programmatically change based on a set of rules given to the rendering platform.
 
 Flutter provides a set of widgets and constructs to achieve responsiveness in our apps out of the box, starting from the ```MediaQuery``` widget.
 
@@ -45,29 +43,34 @@ VerticalSizeIndicator(mediaQueryData: data)
 
 ```
 
-Now that we're passing into the widgets that need the **MediaQueryData**, now let's pull the size information from it.
+Now that we're passing the ```MediaQueryData``` into these widgets, let's pull the size information from it.
 
-Go to the **HorizontalSizeIndicator** widget, and inside its **build** method, pull both the width and height out of the provided **MediaQueryData** stored in its **mediaQueryData** property, and save them on the local variables **height** and **width** respectively:
+Go to the ```HorizontalSizeIndicator``` widget, and inside its ```build``` method, pull both the width and height out of the provided ```MediaQueryData``` stored in its ```mediaQueryData``` property, and save them on the local variables ```width``` and ```height``` respectively:
 
 ```dart
 
-// Step #3: extract both width and height 
-var height = mediaQueryData!.size.height;
-var width = mediaQueryData!.size.width;
+// Step #3: extract both width and height from the 
+// MediaQueryData.size property, and assign them
+// to these local variables
+
+var height = 0; // extract the height
+var width = 0; // extract the width
 
 ```
 
 
-Do the same on the **VerticalSizeIndicator** inside its **build** method, but this one only requires the height:
+Do the same on the ```VerticalSizeIndicator``` widget inside its ```build``` method, but this one only requires only the ```height```:
 
 ```dart
 
-// Step #4: extract the height value only 
-var height = mediaQueryData!.size.height;
+// Step #4: extract the height on from the 
+// MediaQueryData.size property, and assign it
+// to this local variable
+var height = 0; // extract the height;
 
 ```
 
-Go ahead now and hit ```Run``` on DartPad to execute the code, and then resize the **UI Output** window to the right from both sides by dragging from the divider controls, so you can see that as soon as you resize the containing window, your widget will be scheduled to be rebuilt, thus causing the ```MediaQuery``` to be queried, retrieving the width and height values of the containing window as it changes dimensions and keeping your widget up-to-date.
+Go ahead now and hit ```Run``` on DartPad to execute the code, and then resize the **UI Output** window to the right from both sides by dragging from the divider controls, so you can see that, as soon as you resize the containing window, your widget is scheduled to be rebuilt, thus causing the ```MediaQuery.of``` to be queried, retrieving the width and height values of the containing window as it changes dimensions and keeping your widget up-to-date.
 
 You should see a couple of cool widgets representing arrows indicating the measurements of the **UI Output** containing window, and in real-time, as you resize, you should see the values changing. Pretty neat!
 

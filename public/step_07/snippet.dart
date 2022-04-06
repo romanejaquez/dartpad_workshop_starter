@@ -154,7 +154,9 @@ class FlutterAirWelcome extends StatelessWidget {
           Expanded(
 
             // TODO: start building the main region 
-            // structure from this point forward
+            // structure from this point forward, wrapping
+            // the Padding widget below
+
             child: Padding(
               padding: const EdgeInsets.all(50),
               child: FlutterAirFlightInfo()
@@ -202,7 +204,7 @@ class FlutterAirSideBar extends StatelessWidget {
                             icon: Icon(
                               Utils.sideBarItems[index].icon, // populate the icon
                               color: Colors.white,
-                              size: sideBarItemStyles!.iconSize // use the configured style
+                              size: sideBarItemStyles.iconSize // use the configured style
                             )
                           ),
                           Visibility(
@@ -579,6 +581,7 @@ class Utils {
   };
 
   static Map<DeviceBreakpoints, FlutterAirFlightInfoStyles> flightInfoStyles = {
+    // TODO: set the minHeight with 500 to all mappings below
     DeviceBreakpoints.mobile: FlutterAirFlightInfoStyles(
       labelSize: 15,
       primaryValueSize: 60,
@@ -590,7 +593,7 @@ class Utils {
       seatBadgetLabelSize: 25,
       flightLineSize: 3,
       flightLineEndRadiusSize: 10,
-      secondaryIconSize: 30
+      secondaryIconSize: 30,
     ),
     DeviceBreakpoints.tablet: FlutterAirFlightInfoStyles(
       labelSize: 20,
@@ -603,7 +606,7 @@ class Utils {
       seatBadgetLabelSize: 30,
       flightLineSize: 4,
       flightLineEndRadiusSize: 15,
-      secondaryIconSize: 30
+      secondaryIconSize: 30,
     ),
     DeviceBreakpoints.laptop: FlutterAirFlightInfoStyles(
       labelSize: 20,
@@ -616,7 +619,7 @@ class Utils {
       seatBadgetLabelSize: 35,
       flightLineSize: 4,
       flightLineEndRadiusSize: 15,
-      secondaryIconSize: 30
+      secondaryIconSize: 30,
     ),
     DeviceBreakpoints.desktop: FlutterAirFlightInfoStyles(
       labelSize: 25,
@@ -629,7 +632,7 @@ class Utils {
       seatBadgetLabelSize: 35,
       flightLineSize: 4,
       flightLineEndRadiusSize: 20,
-      secondaryIconSize: 50
+      secondaryIconSize: 50,
     ),
     DeviceBreakpoints.tv: FlutterAirFlightInfoStyles(
       labelSize: 25,
@@ -642,7 +645,7 @@ class Utils {
       seatBadgetLabelSize: 35,
       flightLineSize: 4,
       flightLineEndRadiusSize: 20,
-      secondaryIconSize: 50
+      secondaryIconSize: 50,
     ),
   };
 
@@ -704,25 +707,27 @@ class Utils {
   ];
 
   static Map<DeviceBreakpoints, FlutterAirSideBarItemStyles> sideBarItemStyles = {
+    // TODO: set the minHeight to 200 on all mappings below
     DeviceBreakpoints.mobile: FlutterAirSideBarItemStyles(
        iconSize: 30,
-       labelSize: 15
+       labelSize: 15,
+       
     ),
     DeviceBreakpoints.tablet: FlutterAirSideBarItemStyles(
        iconSize: 30,
-       labelSize: 15
+       labelSize: 15,
     ),
     DeviceBreakpoints.laptop: FlutterAirSideBarItemStyles(
        iconSize: 25,
-       labelSize: 15
+       labelSize: 15,
     ),
     DeviceBreakpoints.desktop: FlutterAirSideBarItemStyles(
        iconSize: 25,
-       labelSize: 20
+       labelSize: 20,
     ),
     DeviceBreakpoints.tv: FlutterAirSideBarItemStyles(
        iconSize: 25,
-       labelSize: 20
+       labelSize: 20,
     ),
   };
 }
@@ -755,6 +760,8 @@ class FlutterAirFlightInfoStyles {
   double? flightLineSize;
   double? flightLineEndRadiusSize;
   double? secondaryIconSize;
+  // TODO: add additional property called
+  // "minHeight", type double?
 
   FlutterAirFlightInfoStyles({
     this.labelSize,
@@ -767,16 +774,21 @@ class FlutterAirFlightInfoStyles {
     this.seatBadgetLabelSize,
     this.flightLineSize,
     this.flightLineEndRadiusSize,
-    this.secondaryIconSize
+    this.secondaryIconSize,
+    // TODO: add named parameter to property "minHeight"
   });
 }
 
 class FlutterAirSideBarItemStyles {
   double? iconSize;
   double? labelSize;
+  // TODO: add additional property called
+  // "minHeight", type double?
 
   FlutterAirSideBarItemStyles({
-    this.iconSize, this.labelSize
+    this.iconSize,
+    this.labelSize,
+    // TODO: add named parameter to property "minHeight"
   });
 }
 

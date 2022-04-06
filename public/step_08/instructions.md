@@ -1,10 +1,10 @@
-# Responsive UIs in Flutter: Single Source of Truth for Styling
+# Single Source of Truth for Styling
 
-Let's reintroduce the concept of helper classes that consolidate all style changes we want to apply at the different supported breakpoints by our application by implementing the following feature depicted in the image below:
+Let's reintroduce the concept of helper classes that consolidate all style changes we want to apply at the different supported breakpoints by our application while implementing the following feature depicted in the image below:
 
 ![LayoutBuilder](http://localhost:8080/images/flutterair2.gif)
 
-Notice how the font size changes as the screen dimensions match the supported breakpoints, and pay specific attention to the side menu widget (i.e. ```Drawer```) that when it is on a larger screen, its background is white, but when it is on a smaller screen (i.e. mobile) the background changes to purple.
+Notice how the font size changes as the screen dimensions match the supported breakpoints, and pay specific attention to the side menu widget (i.e. ```Drawer```) that when it is on a larger screen, its background is white and with a bit of content, but when it is on a smaller screen (i.e. mobile) the background changes to purple and more content appears.
 
 This is so that we can provide a tailored experience depending on the device in which our users are consuming the same application. This also makes styling each breakpoint in a streamlined fashion, avoiding the ill-fated amount of "if-else" clauses polluting the UI.
 
@@ -15,11 +15,11 @@ Let's tackle this widget, shall we?
 The first thing that we do is: determine which are the values in our widget that we want to change and apply programmatically, as opposed to have them hard-coded in the widget or all over the place.
 
 For example, from this widget, we want to change the following properties upon hitting the supported breakpoints:
-- ```backgroundColor``` (type ```Color```): we want the background to change depending on the experience we want to give our users between mobile and desktop
-- ```labelColor``` (type ```Color```): we want to provide a constrast between the background and the colors of the label
-- ```iconBgColor``` (type ```Color```): the icons should match the labels, so we need to have a separate property for them
-- ```iconSize``` (type ```double```): the size of the icon should change depending on the screen size
-- ```labelSize``` (type ```double```): same with the size of the labels
+- ```backgroundColor``` (type ```Color?```): we want the background to change depending on the experience we want to give our users between mobile and desktop
+- ```labelColor``` (type ```Color?```): we want to provide a constrast between the background and the colors of the label
+- ```iconBgColor``` (type ```Color?```): the icons should match the labels, so we need to have a separate property for them
+- ```iconSize``` (type ```double?```): the size of the icon should change depending on the screen size
+- ```labelSize``` (type ```double?```): same with the size of the labels
 
 Then, with that figured out, create a class called ```FlutterAirSideMenuStyles``` that encapsulates all of the properties above.
 
@@ -29,24 +29,18 @@ Then, with that figured out, create a class called ```FlutterAirSideMenuStyles``
 // that encapsulates the styles
 
 class FlutterAirSideMenuStyles {
-  Color? backgroundColor;
-  Color? labelColor;
-  Color? iconBgColor;
-  double? iconSize;
-  double? labelSize;
+  // TODO: add all properties defined above:
+  // backgroundColor, labelColor, iconBgColor, iconSize and labelSize
 
   FlutterAirSideMenuStyles({
-    this.backgroundColor,
-    this.labelColor,
-    this.iconSize,
-    this.labelSize,
-    this.iconBgColor
+    // add all named constructor parameters
+    // for each of the properties defined above
   });
 }
 
 ```
 
-Next, go to the ```Utils``` class and create a ```Map``` of type ```&lt;DeviceBreakpoints, FlutterAirSideMenuStyles&gt;```, and for every device breakpoint, define the corresponding properties for each, following these specs:
+Next, go to the ```Utils``` class and create a ```Map``` of type ```<DeviceBreakpoints, FlutterAirSideMenuStyles>```, and for every device breakpoint, define the corresponding properties for each, following these specs:
 
 For mobile:
 - ```backgroundColor```: Utils.secondaryThemeColor
@@ -55,7 +49,7 @@ For mobile:
 - ```labelSize```: 20
 - ```iconBgColor```: Utils.mainThemeColor
 
-For tablet, laptop, desktop and tv:
+For all others (tablet, laptop, desktop and tv):
 - ```backgroundColor```: Colors.white,
 - ```labelColor```: Utils.darkThemeColor
 - ```iconSize```: 30
@@ -97,16 +91,24 @@ In the image below, notice how for screen sizes larger than mobile we only have 
 
 Create a class called ```FlutterAirSideMenu``` that extends ```StatelessWidget``` and override its ```build``` method.
 
+```dart
+
+// TODO: create a class called "FlutterAirSideMenu"
+// that extends "StatelessWidget", and override its build method
+
+```
+
 We'll proceed by creating a method inside this class that will streamline the creation of our menu items. The method will be called ```getMenuItems``` with the following specs:
 
-- return a ```List&lt;Widget&gt;``` so we can arrange its children as we please
+- return a ```List<Widget>``` so we can arrange its children as we please
 - take in two parameters:
-    - ```items```: type ```List&lt;FlutterAirSideBarItem&gt;```, which represents the menu items to show. We'll use two pre-built lists we've already created for you (for the sake of this tutorial): ```Utils.sideBarItems``` and ```Utils.sideMenuItems```
+    - ```items```: type ```List<FlutterAirSideBarItem>```, which represents the menu items to show. We'll use two pre-built lists we've already created for you (for the sake of this tutorial): ```Utils.sideBarItems``` and ```Utils.sideMenuItems```
     - ```styles```: type ```FlutterAirSideMenuStyles``` so that we can apply the styles programmatically as we build the menu items according to the corresponding style mapping per supported screen
 
 Internally this method will just return a list of widgets having the following structure:
 
 ```dart
+
 - Padding
     - Row
         - Icon
@@ -123,33 +125,33 @@ The final method should look like below:
 // ... rest of the code omitted for brevity
 
 List<Widget> getMenuItems(
-    List<FlutterAirSideBarItem> items,
-    FlutterAirSideMenuStyles styles) {
+  List<FlutterAirSideBarItem> items,
+  FlutterAirSideMenuStyles styles) {
 
-    return List.generate(items.length, (index) {
-      var menuItem = items[index];
+  return List.generate(items.length, (index) {
+    var menuItem = items[index];
 
-      return Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Row(
-          children: [
-            Icon(
-                menuItem.icon, 
-                color: styles.labelColor, 
-                size: styles.iconSize
-            ),
-            const SizedBox(width: 20),
-            Text(menuItem.label!, 
-              style: TextStyle(
-                color: styles.labelColor,
-                fontSize: styles.labelSize
-              )
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Row(
+        children: [
+          Icon(
+              menuItem.icon, 
+              color: styles.labelColor, 
+              size: styles.iconSize
+          ),
+          const SizedBox(width: 20),
+          Text(menuItem.label!, 
+            style: TextStyle(
+              color: styles.labelColor,
+              fontSize: styles.labelSize
             )
-          ],
-        ),
-      );
-    });
-  }
+          )
+        ],
+      ),
+    );
+  });
+}
 
 ```
 
@@ -168,7 +170,10 @@ Proceed to utilize our newly created method ```getMenuItems``` to generate the m
 
 ```dart
 
-// TODO: next, if the current breakpoint is for 'mobile':
+// TODO: next, if the current breakpoint is for 'mobile',
+// then get the Utils.sideBarItems as menu items, otherwise
+// return an empty list
+
 List<Widget> mainMenuItems = deviceBreakpoint == DeviceBreakpoints.mobile ? 
     getMenuItems(Utils.sideBarItems, menuStyles!) : [];
 
@@ -186,7 +191,7 @@ mainMenuItems.addAll(defaultMenuItems);
 
 With all of our menu item widgets pre-populated and ready to be rendered, let's build out the structure that will encapsulate these widgets, starting from a ```Container``` widget with the following specs:
 
-- ```color```: set a background color to this container, leveraing the ```menuStyles``` styles retrieved above, pulling the ```backgroundColor``` property out of it
+- ```color```: set a background color to this container, leveraging the ```menuStyles``` styles retrieved above, pulling the ```backgroundColor``` property out of it
 - ```padding```: 30px of padding all around
 - ```child```: a ```Column``` widget as its direct child
 
@@ -275,7 +280,7 @@ Container(
         color: menuStyles.iconBgColor,
         borderRadius: BorderRadius.circular(35)
     ),
-    child: Icon(
+    child: const Icon(
         Icons.flight_takeoff, 
         color: Colors.white,
         size: 40
@@ -284,16 +289,13 @@ Container(
 
 ```
 
-Now, put this newly created with in place by going up to the ```FlutterAirWelcome``` page widget and feed it to the ```Scaffold```'s drawer, setting the ```Drawer```'s ```child``` property:
+Now, put this newly created widget in place by going up to the ```FlutterAirWelcome``` page widget and feed it to the ```Scaffold```'s drawer, setting its instance as the ```Drawer```'s ```child``` property:
 
 ```dart
 
-// TODO: add the created FlutterAirSideMenu here 
-// as a child of the Drawer; remove the 'const'
-// from the Drawer widget
-drawer: Drawer(
-    child: FlutterAirSideMenu()
-),
+// TODO: add the created FlutterAirSideMenu 
+// as a child of the Drawer widget;
+// don't forget to remove the 'const' from the Drawer widget
 
 ```
 
@@ -303,6 +305,6 @@ Notice how the side menu widget changes color for the background, icons and font
 
 ## Further exploration
 
-You can check out also how I built the ```FlutterAirAppBar```, which pretty much following the same "single-source-of-truth" style approach when styling the it, and notice how the app bar changes color as we move from mobile to larger screens. 
+You can check out also how I built the ```FlutterAirAppBar``` widget, which pretty much follows the same "single-source-of-truth" style approach when styling it, and notice how the app bar changes color as we move from mobile to larger screens.
 
 These are some approaches you can utilize in your own apps in order to bring responsiveness in a clean and efficient way.

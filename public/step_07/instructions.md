@@ -1,8 +1,8 @@
-# Responsive UIs in Flutter: Force a Constraint when Needed
+# Force a Constraint when Needed
 
-Let's stay you still want your user interface to flow seamlessly height-wise and stretch nicely, but what if your users are shrinking your and instead of squishing your UI, you want to force a minimum height, then a scrollbar kicks in. This way you don't have to necessarily remove content, since the content is critical and must be shown at all times.
+Let's say you still want your user interface to flow seamlessly height-wise and stretch nicely, but what if your users are shrinking their screen and instead of squishing your UI, you want to force a minimum height, then a scrollbar kicks in. This way you don't have to necessarily remove content, since the content is critical and must be shown at all times.
 
-You can use a ```ConstrainedBox``` in most situations, but in this particular case you want to use a ```Container``` widget, set its height to be available constraints for the enclosing widget (```constraints.maxHeight```) and set the constraints on the container based on some fixed height you want to impose upon reaching a specific threshold based on the supported screen. Then the scrolling functionality kicks in.
+You can use a ```ConstrainedBox``` in most situations, but in this particular case you want to use a ```Container``` widget, set its height to be the available vertical constraints for the enclosing widget (```constraints.maxHeight```) and set the constraints on the container based on some fixed height you want to impose upon reaching a specific threshold based on the supported screen. Then the scrolling functionality kicks in.
 
 This is what it looks like right now:
 
@@ -34,7 +34,19 @@ This is the structure we want to accomplish:
 
 Go to the helper class called ```FlutterAirFlightInfoStyles``` which defines all styles defined for the corresponding breakpoint; add an additional property called ```minHeight```, type ```double``` in which we'll store what we consider is the appropriate minimum height under each breakpoint that delivers the optimal viewport until scrolling kicks in. Add a corresponding constructor parameter as well.
 
+```dart
+// TODO: add the additional property in the
+// "FlutterAirFlightInfoStyles" class, called
+// "minHeight", type double?, and add its corresponding
+// constructor param as well
+```
+
 Next, go to the ```Utils``` class and locate its corresponding mapping called ```flightInfoStyles```, and under each of the supported device breakpoints mapping, set the ```minHeight``` value to 500px for all of them (mobile, tablet, laptop, desktop and tv) - let's start with that value, then you can adjust accordingly.
+
+```dart
+// TODO: populate the values in the "flightInfoStyles" mapping
+// by setting their "minHeight" values to 500px
+```
 
 With that in place, now we're ready to tackle the widget structure.
 
@@ -45,7 +57,8 @@ Start by importing the updated flight info styles mapping at the top of the ```b
 @override
 Widget build(BuildContext context) {
 
-    // add this at the top of the build method
+    // TODO: add this at the top of the build method in the 
+    // FlutterAirWelcome widget
 
     FlutterAirFlightInfoStyles? flightInfoStyles = 
         Utils.flightInfoStyles[Utils.getDeviceType(context)];
@@ -61,7 +74,8 @@ Then, proceed to wrap the existing ```Padding``` widget inside a ```LayoutBuilde
 
 ```dart
 
-// wrap the padding with a LayoutBuilder
+// TODO: wrap the Padding widget enclosing the
+// FlutterAirFlightInfo widget inside a LayoutBuilder
 // so we can extract the constraints 
 
 // ... rest of the code omitted for brevity
@@ -76,13 +90,13 @@ Expanded(
 
 ```
 
-The ```LayoutBuilder``` will supply the constraints needed to read what the ```maxHeight``` and ```minHeight``` are available for this widget.
+The ```LayoutBuilder``` will supply the constraints needed to read what the ```maxHeight``` and ```minHeight``` values are available for this widget.
 
-Continue wrapping the ```Padding``` in yet another widget, a ```SingleChildScrollView``` - this is so that once it hits the optimal viewport height we've designated, the scrolling kicks in; populate the ```controller``` property by feeding a new instance of ```ScrollController``` so its scrolling is independent from any other scrolling entity on this page:
+Continue wrapping the ```Padding``` in yet another widget, a ```SingleChildScrollView``` - this is so that once it hits the optimal viewport height we've designated, the scrolling kicks in; populate the ```controller``` property by feeding a new instance of ```ScrollController``` so its scrolling is independent from any other scrolling entity on this page and doesn't cause any conflicts:
 
 ```dart
 
-// wrap the returning Padding with a
+// TODO: wrap the returning Padding with a
 // SingleChildScrollView
 
 // ... rest of the code omitted for brevity
@@ -93,7 +107,7 @@ Expanded(
             return SingleChildScrollView(
                 controller: ScrollController(),
                 child: // Padding widget stays the same
-            )
+            );
         }
     )
 )
@@ -106,9 +120,7 @@ Set the ```Container```'s ```height``` property to be the ```constraints.maxHeig
 
 ```dart
 
-// structure inside the FlutterAirWelcome widget
-
-// wrap the Padding inside a Container
+// TODO: wrap the Padding inside a Container
 // and set its constraints and height accordingly
 Container(
     // set the height
@@ -118,7 +130,7 @@ Container(
     // the one supplied by the LayoutBuilder above
     constraints: BoxConstraints(
         minHeight: 
-        constraints.minHeight < flightInfoStyles!minHeight! ? 
+        constraints.minHeight < flightInfoStyles!.minHeight! ? 
             flightInfoStyles.minHeight! : constraints.minHeight
     ),
     
@@ -132,11 +144,28 @@ Container(
 
 ## Applying the same strategy to the FlutterAirSideBar widget
 
-If you do the shrinking on the page once again, we've fixed the yellow and black lines on the flight info in the main region of the page; now let's take care of it on the side bar widget. We'll pretty much follow the same approach.
+If you do the shrinking on the page once again, we've fixed the yellow and black lines indicators on the flight info in the main region of the page; now let's take care of it on the side bar widget. We'll pretty much follow the same approach.
 
 Start by locating the side bar item styles helper class called ```FlutterAirSideBarItemStyles``` and add a new property called ```minHeight```, also ```double```. Add its corresponding constructor parameter to it.
 
+```dart
+
+// TODO: go to the "FlutterAirSideBarItemStyles" class
+// and also add an additional property called "minHeight",
+// make it type double?; add its named constructor parameter as well
+
+```
+
 Next, go to the ```Utils``` class and locate its corresponding mapping called ```sideBarItemStyles```, and under each of the supported device breakpoints mapping, set the ```minHeight``` value to 200px for all of them (mobile, tablet, laptop, desktop and tv) - let's start with that value, then you can adjust according to what you think the optimal viewport for your sidebar is at any given breakpoint.
+
+```dart
+
+// TODO: go to the Utils.sideBarItemStyles and set
+// the "minHeight" property on all mappings to 200px
+// as an initial value to start with
+
+```
+
 
 Now go back to the ```FlutterAirSideBar``` widget - no need to import the ```sidebarItemStyles``` since we're already doing it.
 
@@ -144,25 +173,29 @@ Inside its ```build``` method, locate the ```Column``` widget that is consuming 
 
 ```dart
 
-// structure inside the FlutterAirSideBar widget
+// Structure inside the FlutterAirSideBar widget:
+
+// TODO: wrap the Column widget inside the following
+// structure, as in the FlutterAirWelcome widget
 Expanded(
-    child: LayoutBuilder(
-        builder: (context, constraints) {
-        return SingleChildScrollView(
-            controller: ScrollController(),
-            child: Container(
-                height: constraints.maxHeight,
-                constraints: BoxConstraints(
-                    minHeight: 
-                        constraints.minHeight < sideBarItemStyles!.minHeight! ?
-                        sideBarItemStyles.minHeight! : constraints.minHeight),
-                child: // Column widget remains the same
-            )
-        )
-    )
+  child: LayoutBuilder(
+    builder: (context, constraints) {
+      return SingleChildScrollView(
+          controller: ScrollController(),
+          child: Container(
+            height: constraints.maxHeight,
+            constraints: BoxConstraints(
+                minHeight: 
+                    constraints.minHeight < sideBarItemStyles!.minHeight! ?
+                    sideBarItemStyles.minHeight! : constraints.minHeight),
+            child: // Column widget remains the same
+          )
+      );
+    }
+  )
 )
 ```
 
-It does pretty much the same thing as before: the ```LayoutBuilder``` sets the constraints in which the ```Column``` widget should be rendered, the ```Container``` widget dictates what the minimum height should be based on an optimal preset value, and the ```SingleChildScrollView``` jumps to the rescue so as not to cut off the content but to provide scrolling capabilities to the ```Container``` widget wrapping our structure.
+It does pretty much the same thing as before: the ```LayoutBuilder``` sets the constraints in which the ```Column``` widget should be rendered, then the ```Container``` widget dictates what the minimum height should be based on an optimal preset value, and lastly the ```SingleChildScrollView``` jumps to the rescue so as not to cut off the content but to provide scrolling capabilities to the ```Container``` widget wrapping our structure.
 
-And with that you've solved the issue of content crushing against each other, and instead a scrollbar shows automatically when applicable so as to still display the content while maintaining flexibility and fluidity.
+And with that, you've solved the issue of content smooshing against each other, and instead a scrollbar shows automatically when applicable so as to display the content while maintaining flexibility and fluidity.
