@@ -2,11 +2,13 @@
 
 Kudos to you for making it 'til the end of this workshop.
 
-In this workshop we:
+In this workshop we learned:
 
-- learned 
-- learned
-- learned
+- How to create fluid user interfaces using core Flutter widgets
+- How to extract valuable screen information from the ```MediaQueryData`` (i.e. size) 
+- The roper use of the ```LayoutBuilder``` widget and the constraints it provides to its children
+- How to mix ```LayoutBuilder``` and ```MediaQuery``` and use them in tandem
+- How to handle all your app's supported orientations and style them accordingly thanks to the "single-source-of-truth" approach using helper classes
 
 There are other widgets that facilitate responsiveness that you should continue exploring, including:
 

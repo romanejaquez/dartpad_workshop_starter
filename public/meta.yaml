@@ -28,7 +28,7 @@ steps:
     has_solution: true
   - name: Step 8
     directory: step_08
-    has_solution: false
+    has_solution: true
   - name: Step 9
-    directory: step_08
+    directory: step_09
     has_solution: false
